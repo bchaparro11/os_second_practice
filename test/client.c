@@ -22,7 +22,14 @@ struct row{
     int a,b,c;
 };
 
+void fclient();
+
 int main(){
+    fclient();
+}
+
+
+void fclient(){
     int clientfd,r,opt=1;
     struct sockaddr_in client;
     socklen_t socklen;

@@ -21,8 +21,13 @@ struct row{
     int a,b,c;
 };
 
-int main(){
+void fserver();
 
+int main(){
+    fserver();
+}
+
+void fserver(){
     struct row r1;
 
     int serverfd, clientfd;
