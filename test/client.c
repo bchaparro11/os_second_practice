@@ -22,14 +22,15 @@ struct row{
     int a,b,c;
 };
 
-void fclient();
+void fclient(struct row *r1);
 
 int main(){
-    fclient();
+    struct row r1 = {12345,678,90};
+    fclient(&r1);
 }
 
 
-void fclient(){
+void fclient(struct row *r1){
     int clientfd,r,opt=1;
     struct sockaddr_in client;
     socklen_t socklen;
@@ -65,10 +66,10 @@ void fclient(){
 
 
     //To send message
-    struct row r1 = {123,987,465};
+    //struct row r1 = {123,987,465};
 
     //send(clientfd,hello,strlen(hello),0);
-    send(clientfd,&r1,sizeof(struct row),0);
+    send(clientfd,r1,sizeof(struct row),0);
 
     r = recv(clientfd, buffer,10,0);
     if(r<0){
