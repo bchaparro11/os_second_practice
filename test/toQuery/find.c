@@ -31,7 +31,7 @@ struct client_server_comunication{
 
 void fserver();
 
-void fserver2();
+void fserver2(struct sharerow *sr1);
 
 int main(){
     /*
@@ -48,9 +48,10 @@ int main(){
     }
     struct sharerow sr1;
     //fread(&sr1,sizeof(struct sharerow),1,fshare);
-    fserver2();
+    fserver2(&sr1);
+    printf("a: %d, b: %d, c: %d\n",sr1.sourceid,sr1.dstid,sr1.hod);
     fclose(fshare);
-    exit(0);
+    //exit(0);
     
     /*
     Memoria dinámica en este lugar, sólo aquí usada para cumplir la condición se usar malloc
@@ -183,8 +184,8 @@ void fserver(){
     close(serverfd);
 }
 
-void fserver2(){
-    struct sharerow sr1;
+void fserver2(struct sharerow *sr1){
+    //struct sharerow sr1;
 
     int serverfd, clientfd;
     struct sockaddr_in server, client;
@@ -233,14 +234,14 @@ void fserver2(){
         exit(0);
     }
     //Se debe poner el número para que funcione 
-    r = recv(clientfd,&sr1,sizeof(struct sharerow),0);
+    r = recv(clientfd,sr1,sizeof(struct sharerow),0);
     if(r<0){
         perror("Error en recv en server\n");
         exit(0);
     }
 
     //printf("%s\n", buffer);
-    printf("a: %d, b: %d, c: %d\n",sr1.sourceid,sr1.dstid,sr1.hod);
+    //printf("a: %d, b: %d, c: %d\n",sr1->sourceid,sr1->dstid,sr1->hod);
     r =  send(clientfd,"hola mundo",10,0);
     if(r<0){
         perror("Error en send()\n");

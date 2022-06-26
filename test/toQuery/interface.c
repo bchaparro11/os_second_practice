@@ -101,7 +101,7 @@ int main(){
 	     	case 4:
 				system("clear");
                 //fwrite(&sr1,sizeof(struct sharerow),1,fshare);
-                fclose(fshare);
+                //fclose(fshare);
                 //system("gcc find.c -o find");
                 //char *args[]={"./find",NULL};
                 //execv(args[0],args); //No aparentado
