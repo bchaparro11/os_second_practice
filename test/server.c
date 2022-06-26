@@ -17,13 +17,20 @@
 #include <netdb.h>
 #include <arpa/inet.h>
 
+struct row{
+    int a,b,c;
+};
 
 int main(){
+
+    struct row r1;
+
     int serverfd, clientfd;
     struct sockaddr_in server, client;
     int r,opt=1;
-    socklen_t socklen;
+    //socklen_t socklen;
     int addrlen = sizeof(server);
+    char buffer[1024] = { 0 };
 
     //Aparece un error pero en realidad no hay ningún error con el AF_INET
     serverfd = socket(AF_INET,SOCK_STREAM,0);
@@ -64,7 +71,15 @@ int main(){
         perror("Error en accept()\n");
         exit(0);
     }
+    //Se debe poner el número para que funcione 
+    r = recv(clientfd,&r1,sizeof(struct row),0);
+    if(r<0){
+        perror("Error en recv en server\n");
+        exit(0);
+    }
 
+    //printf("%s\n", buffer);
+    printf("a: %d, b: %d, c: %d\n",r1.a,r1.b,r1.c);
     r =  send(clientfd,"hola mundo",10,0);
     if(r<0){
         perror("Error en send()\n");

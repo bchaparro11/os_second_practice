@@ -13,16 +13,23 @@
 //additional
 #include <netdb.h>
 
-
+#include <string.h>
 
 //defines
 #define PORT 3535
+
+struct row{
+    int a,b,c;
+};
 
 int main(){
     int clientfd,r,opt=1;
     struct sockaddr_in client;
     socklen_t socklen;
-    char buffer[10];
+    char buffer[1024] = { 0 };
+    //char buffer[10];
+
+    char* hello = "Este mensaje salió desde client";
 
     clientfd = socket(AF_INET, SOCK_STREAM, 0);
     if(clientfd<0){
@@ -47,6 +54,14 @@ int main(){
         perror("Error en connect\n");
         exit(0);
     }
+
+
+
+    //To send message
+    struct row r1 = {123,987,465};
+
+    //send(clientfd,hello,strlen(hello),0);
+    send(clientfd,&r1,sizeof(struct row),0);
 
     r = recv(clientfd, buffer,10,0);
     if(r<0){

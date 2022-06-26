@@ -1,10 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
+
+struct row{
+    int a,b;
+};
+
 int main(){
-    if(1){
-        char array[6]="hello";
-        array[5]=0;
-        printf("The word is: %s\n",array);
-    }
+    struct row r1={1,2};
+    printf("a: %d, b: %d\n",r1.a,r1.b);  
     
 }
