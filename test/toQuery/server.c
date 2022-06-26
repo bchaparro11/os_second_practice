@@ -17,7 +17,7 @@
 #include <netdb.h>
 #include <arpa/inet.h>
 
-struct row{
+struct client_server_comunication{
     int a,b,c;
 };
 
@@ -28,7 +28,7 @@ int main(){
 }
 
 void fserver(){
-    struct row r1;
+    struct client_server_comunication csc;
 
     int serverfd, clientfd;
     struct sockaddr_in server, client;
@@ -77,14 +77,14 @@ void fserver(){
         exit(0);
     }
     //Se debe poner el número para que funcione 
-    r = recv(clientfd,&r1,sizeof(struct row),0);
+    r = recv(clientfd,&csc,sizeof(struct client_server_comunication),0);
     if(r<0){
         perror("Error en recv en server\n");
         exit(0);
     }
 
     //printf("%s\n", buffer);
-    printf("a: %d, b: %d, c: %d\n",r1.a,r1.b,r1.c);
+    printf("a: %d, b: %d, c: %d\n",csc.a,csc.b,csc.c);
     r =  send(clientfd,"hola mundo",10,0);
     if(r<0){
         perror("Error en send()\n");

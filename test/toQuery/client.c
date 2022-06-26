@@ -18,19 +18,19 @@
 //defines
 #define PORT 3535
 
-struct row{
+struct client_server_comunication{
     int a,b,c;
 };
 
-void fclient(struct row *r1);
+void fclient(struct client_server_comunication *csc);
 
 int main(){
-    struct row r1 = {12345,678,90};
-    fclient(&r1);
+    struct client_server_comunication csc = {12345,678,90};
+    fclient(&csc);
 }
 
 
-void fclient(struct row *r1){
+void fclient(struct client_server_comunication *csc){
     int clientfd,r,opt=1;
     struct sockaddr_in client;
     socklen_t socklen;
@@ -66,10 +66,10 @@ void fclient(struct row *r1){
 
 
     //To send message
-    //struct row r1 = {123,987,465};
+    //struct client_server_comunication csc = {123,987,465};
 
     //send(clientfd,hello,strlen(hello),0);
-    send(clientfd,r1,sizeof(struct row),0);
+    send(clientfd,csc,sizeof(struct client_server_comunication),0);
 
     r = recv(clientfd, buffer,10,0);
     if(r<0){
