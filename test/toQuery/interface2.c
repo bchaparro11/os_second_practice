@@ -23,16 +23,9 @@
 //defines
 #define PORT 3535
 
-struct client_server_comunication{
-    int a,b,c;
-};
-
-void fclient(struct client_server_comunication *csc);
-
-void fclient2(struct sharerow *sr1);
 
 
-
+void creating_client(struct sharerow *sr1);
 
 int main(){
 	/*
@@ -107,11 +100,11 @@ int main(){
                 //execv(args[0],args); //No aparentado
 				//struct client_server_comunication csc = {12345,678,90};
 				//Aquí debería existir el for y sale!
-    			fclient2(&sr1);
+    			creating_client(&sr1);
 
 	     	case 5:
 				//system("clear");
-				fclose(fshare);
+				//fclose(fshare);
 				printf("\nHasta Luego!\n\n");
 				exit(0);
 				//return(1);	
@@ -126,7 +119,7 @@ int main(){
 }
 
 
-void fclient2(struct sharerow *sr1){
+void creating_client(struct sharerow *sr1){
     int clientfd,r,opt=1;
     struct sockaddr_in client;
     socklen_t socklen;
