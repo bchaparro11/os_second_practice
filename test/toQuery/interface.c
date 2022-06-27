@@ -106,6 +106,7 @@ int main(){
                 //char *args[]={"./find",NULL};
                 //execv(args[0],args); //No aparentado
 				//struct client_server_comunication csc = {12345,678,90};
+				//Aquí debería existir el for y sale!
     			fclient2(&sr1);
 
 	     	case 5:
