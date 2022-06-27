@@ -110,7 +110,7 @@ int main(){
     			fclient2(&sr1);
 
 	     	case 5:
-				system("clear");
+				//system("clear");
 				fclose(fshare);
 				printf("\nHasta Luego!\n\n");
 				exit(0);
@@ -125,61 +125,6 @@ int main(){
     return 0;
 }
 
-void fclient(struct client_server_comunication *csc){
-    int clientfd,r,opt=1;
-    struct sockaddr_in client;
-    socklen_t socklen;
-    char buffer[1024] = { 0 };
-    //char buffer[10];
-
-    char* hello = "Este mensaje salió desde client";
-
-    clientfd = socket(AF_INET, SOCK_STREAM, 0);
-    if(clientfd<0){
-        perror("Error en socket()\n");
-        exit(0);
-    }
-    //setsockopt(clientfd,SOL_SOCKET, SO_REUSEADDR, (const char *)&opt, sizeof(int));
-
-    client.sin_family = AF_INET;
-    client.sin_port = htons(PORT);
-    //r = inet_aton("127.0.0.1",&client.sin_addr);
-    r = inet_pton(AF_INET,"127.0.0.1",&client.sin_addr);
-    if (r<=0){
-        printf("Error en inet_aton()");
-    }
-    //NO SE HIZO EL bzero() NO SÉ POR QUÉ
-
-
-    //r = connect(clientfd,(struct sockaddr *)&client,(socklen_t)sizeof(struct sockaddr));
-    r = connect(clientfd,(struct sockaddr *)&client,sizeof(client));
-    if(r<0){
-        perror("Error en connect\n");
-        exit(0);
-    }
-
-
-
-    //To send message
-    //struct client_server_comunication csc = {123,987,465};
-
-    //send(clientfd,hello,strlen(hello),0);
-    send(clientfd,csc,sizeof(struct client_server_comunication),0);
-
-    r = recv(clientfd, buffer,10,0);
-    if(r<0){
-        perror("Error en recv\n");
-        exit(0);
-    }
-    printf("El valor de r es: %d\n",r);
-    buffer[r]=0;
-    //for(int i = 0;i<(sizeof(buffer)/sizeof(char));i++){
-    //    //printf("%d\n",i);
-    //    printf("%c\n",buffer[i]);
-    //}
-    printf("El mensaje es: \n %s\n",buffer);
-    close(clientfd);
-}
 
 void fclient2(struct sharerow *sr1){
     int clientfd,r,opt=1;
@@ -221,19 +166,26 @@ void fclient2(struct sharerow *sr1){
 
     //send(clientfd,hello,strlen(hello),0);
     send(clientfd,sr1,sizeof(struct sharerow),0);
-    
-    r = recv(clientfd, buffer,10,0);
+    struct row r1;
+    r = recv(clientfd, &r1,sizeof(struct row),0);
     if(r<0){
         perror("Error en recv\n");
         exit(0);
     }
-    printf("El valor de r es: %d\n",r);
-    buffer[r]=0;
+    
+    printf("\nTiempo de viaje medio: %0.2f\n\n",r1.mean);
+    printf("mpos: %d \nnpos: %d\n",r1.mpos,r1.npos);
+    printf("sourceid: %d \ndstid: %d \nhod: %d\n",r1.sourceid,r1.dstid,r1.hod);
+
+    //printf("a: %d, b: %d, c: %d\n",r1.sourceid,r1.dstid,r1.hod);
+
+    //printf("El valor de r es: %d\n",r);
+    //buffer[r]=0;
     //for(int i = 0;i<(sizeof(buffer)/sizeof(char));i++){
     //    //printf("%d\n",i);
     //    printf("%c\n",buffer[i]);
     //}
-    printf("El mensaje es: \n %s\n",buffer);
+    //printf("El mensaje es: \n %s\n",buffer);
+
     close(clientfd);
-    //printf("LLEGÓ AQUÍ!!");
 }

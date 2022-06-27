@@ -1,5 +1,5 @@
 scriptfind:
-	gcc find.c -o find
+	gcc find.c -lpthread -o find
 	./find
 scriptinterface:
 	gcc interface.c -o interface
@@ -16,3 +16,9 @@ sclient:
 stest:
 	gcc test.c -o test
 	./test
+sfind2:
+	gcc find2.c -lpthread -o find2
+	./find2
+scriptinterface2:
+	gcc interface2.c -o interface2
+	./interface2
