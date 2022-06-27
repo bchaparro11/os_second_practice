@@ -123,10 +123,14 @@ void creating_client(struct sharerow *sr1){
         exit(0);
     }
     
-    //Las siguientes tres líneas de código son para imprimir la información obtenida en recv()
-    printf("\nTiempo de viaje medio: %0.2f\n\n",r1.mean);
-    printf("mpos: %d \nnpos: %d\n",r1.mpos,r1.npos);
-    printf("sourceid: %d \ndstid: %d \nhod: %d\n",r1.sourceid,r1.dstid,r1.hod);
+    if(r1.isfound!=0){
+        //Las siguientes tres líneas de código son para imprimir la información obtenida en recv()
+        printf("\nTiempo de viaje medio: %0.2f\n\n",r1.mean);
+        printf("mpos: %d \nnpos: %d\n",r1.mpos,r1.npos);
+        printf("sourceid: %d \ndstid: %d \nhod: %d\n",r1.sourceid,r1.dstid,r1.hod);
+    }else{
+        printf("N/A\n");
+    }
 
     close(clientfd); //Cerrando el client declarado al principio de esta función
 }

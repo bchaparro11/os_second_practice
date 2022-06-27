@@ -9,7 +9,7 @@ struct row{
     npost = Next position
     */
     int mpos,npos;
-    short int sourceid,dstid,hod;
+    short int sourceid,dstid,hod,isfound;
     float mean;
 };
 
