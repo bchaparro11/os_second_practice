@@ -1,6 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
-#include"../header.h"
+#include"../header.h" //Para obtener los structs necesarios para ejecutar el código de este script
 #include <sys/types.h> //Para ejecutar socket() junto con la siguiente librería
 #include <sys/socket.h>
 #include <netinet/in.h> //Para usar sockaddr_in
