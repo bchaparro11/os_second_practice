@@ -28,8 +28,6 @@ int * accepting(void * server_information); //Función para esperar la conexión
 
 int searching(struct sharerow sr1, int clientfd); //Función para hacer búsqueda en el archivo de todos los viajes de UBER para luego enviarla a cada client
 
-//void loggin(void * str, struct tm *tm, struct row *r1);
-
 void logging(int flag, struct row *r1);
 
 int main(){
@@ -227,8 +225,6 @@ int searching(struct sharerow sr1, int clientfd){
     }
     return 0;
 }
-
-
 
 void logging(int flag, struct row *r1){
     FILE *flog; //Puntero del archivo log.txt

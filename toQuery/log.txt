@@ -1,3 +1,3 @@
-[Fecha 2022-06-27 21:49:50] Cliente [0.0.0.0] [busqueda: N/A - origen: N/A - destino: N/A]
-[Fecha 2022-06-27 21:50:25] Cliente [0.0.0.0] [busqueda: 1210.890015 - origen: 811 - destino: 808]
-[Fecha 2022-06-27 21:51:17] Cliente [0.0.0.0] [busqueda: 1152.030029 - origen: 751 - destino: 903]
+[Fecha 2022-06-27 22:08:05] Cliente [0.0.0.0] [busqueda: 1542.050049 - origen: 11 - destino: 9]
+[Fecha 2022-06-27 22:08:25] Cliente [0.0.0.0] [busqueda: N/A - origen: N/A - destino: N/A]
+[Fecha 2022-06-27 22:08:52] Cliente [0.0.0.0] [busqueda: 1399.000000 - origen: 420 - destino: 786]
