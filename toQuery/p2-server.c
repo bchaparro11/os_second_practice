@@ -28,6 +28,10 @@ int * accepting(void * server_information); //Función para esperar la conexión
 
 int searching(struct sharerow sr1, int clientfd); //Función para hacer búsqueda en el archivo de todos los viajes de UBER para luego enviarla a cada client
 
+//void loggin(void * str, struct tm *tm, struct row *r1);
+
+void logging(int flag, struct row *r1);
+
 int main(){
     int serverfd; //Declarando descriptor de server
     struct sockaddr_in server; //Struct para configurar el server
@@ -119,13 +123,6 @@ int * accepting(void * server_information){
         perror("Error en accept()\n"); //Manejando los errores de accept()
         exit(0);
     }
-
-    //Las siguientes cuatro líneas de código son para poder obtener la dirección ip del client
-    struct sockaddr_in* pV4Addr = (struct sockaddr_in*)&inf1->server.sin_addr;
-    struct in_addr ipAddr = pV4Addr->sin_addr;
-    char str[INET_ADDRSTRLEN];
-    inet_ntop( AF_INET, &ipAddr, str, INET_ADDRSTRLEN );
-    //printf("La dirección ip es: %s\n",str); //Ejecute esta línea de código sólo si necesita saber la dirección ip del client
    
     r = recv(clientfd,&sr1,sizeof(struct sharerow),0); //Para recibir la información que envía el client
     if(r<0){
@@ -133,17 +130,30 @@ int * accepting(void * server_information){
         exit(0);
     }
 
+    //Las siguientes cuatro líneas de código son para poder obtener la dirección ip del client
+    struct sockaddr_in* pV4Addr = (struct sockaddr_in*)&inf1->server.sin_addr;
+    struct in_addr ipAddr = pV4Addr->sin_addr;
+    char str[INET_ADDRSTRLEN];
+    inet_ntop( AF_INET, &ipAddr, str, INET_ADDRSTRLEN );
+
     //Las siguientes dos líneas de código son para poder obtener la hora exacta en el que el server recibe la información del client
     time_t t = time(NULL);
     struct tm tm = *localtime(&t);
-    //printf("now: %d-%02d-%02d %02d:%02d:%02d\n", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec); //Ejecute esta línea sólo si necesita imprimir el valor del día y la hora
-
-    //printf("sourceid: %d, dstid: %d, hod: %d\n",sr1.sourceid,sr1.dstid,sr1.hod); //Ejecute esta línea de código si necesia saber la información recibida del client
     
+    //Las siguientes 10 línes de código son para hacer la primera parte del log, es decir, guardar la ip y la hora de conexión
+    FILE *flog;
+    flog = fopen("log.txt","a");
+    if(flog==NULL){
+        printf("Hubo un error con el opening del log.text\n");
+        exit(0);
+    }
+    fseek(flog,0,SEEK_END);
+    fprintf(flog,"[Fecha %d-%02d-%02d %02d:%02d:%02d] Cliente [%s] ",\
+    tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec,str);
+    fclose(flog);
+
     searching(sr1,clientfd); //Haciendo la busqueda en el archivo de casi seis millones de registros de viajes de UBER
-    
     close(clientfd); //Cerrando el client luego de hacer el searching
-
 }
 
 int searching(struct sharerow sr1, int clientfd){
@@ -161,6 +171,7 @@ int searching(struct sharerow sr1, int clientfd){
             perror("Error en send()\n"); //Manejando los errores de send()
             exit(0);
         }
+        logging(0,&r1); //Para hacer la segunda parte del log, es decir, para poner [búsqueda - origen - destino]
         return 0; //Aquí no se coloca exit() porque eso mata el proceso PADRE, o server, que declara todos los hilos
     }
 
@@ -198,6 +209,7 @@ int searching(struct sharerow sr1, int clientfd){
                 exit(0);
             }
             flag = 1; //Cambiando el valor de la variable flag para que no ejecute el if que está después de este ciclo
+            logging(1,&r1); //Para hacer la segunda parte del log, es decir, para poner [búsqueda - origen - destino]
             break;
         }
         *np=r1.npos;
@@ -211,6 +223,30 @@ int searching(struct sharerow sr1, int clientfd){
         }
         fclose(filedata); // Se cierra el puntero del archivo data.bin
         free(np); //Se libera la memoria de la variabel np usada para guardar la posición del registro leído en el archivo data.bin
+        logging(0,&r1); //Para hacer la segunda parte del log, es decir, para poner [búsqueda - origen - destino]
     }
     return 0;
 }
+
+
+
+void logging(int flag, struct row *r1){
+    FILE *flog; //Puntero del archivo log.txt
+    flog = fopen("log.txt","a");
+    if(flog==NULL){
+        printf("Hubo un error con el opening del log.text\n");
+        exit(0);
+    }
+
+    if(flag==1){//Bloque de código por si se encontró alguna coincidencia en el archivo data.bin
+        fseek(flog,0,SEEK_END);
+        fprintf(flog,"[busqueda: %f - origen: %d - destino: %d]\n",r1->mean, r1->sourceid, r1->dstid);
+        fclose(flog);
+    }else{//Bloque de código por si no se encontró alguna coincidencia en el archivo data.bin
+        fseek(flog,0,SEEK_END);
+        fprintf(flog,"[busqueda: %s - origen: %s - destino: %s]\n","N/A","N/A","N/A");
+        fclose(flog);
+    }
+    
+}
+

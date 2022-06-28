@@ -4,3 +4,6 @@ sserver:
 sclient:
 	gcc p2-client.c -o p2-client
 	./p2-client
+stest:
+	gcc test.c -o test
+	./test
