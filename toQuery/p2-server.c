@@ -9,7 +9,7 @@
 #include <arpa/inet.h> //Para ejecutar inet_ntop()
 #include <pthread.h> //Para ejecutar todo lo que tiene que ver con threads
 
-#define NUM_HILOS 2 //Este número se usa también para el BACKLOG en la función listen()
+#define NUM_HILOS 32 //Este número se usa también para el BACKLOG en la función listen()
 #define PORT 3535   //Puerto por defecto para la comunicación entre server y client
 
 struct server_information{
