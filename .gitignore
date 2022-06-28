@@ -54,3 +54,5 @@ dkms.conf
 # Doesn't pull .csv and .bin
 *.csv
 *.bin
+*.txt
+*.o
