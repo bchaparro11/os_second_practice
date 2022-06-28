@@ -6,8 +6,6 @@
 #include <sys/socket.h>
 #include <netinet/in.h> //Para usar sockaddr_in
 #include <arpa/inet.h> //Para usar inet_ntop
-//#include <netdb.h>
-//#include <strings.h>
 
 #define PORT 3535 //Puerto por defecto para la conexión entre client y server
 #define SERVER_IP "127.0.0.1" //Dirección de LOOPBACK para conectar con el server
